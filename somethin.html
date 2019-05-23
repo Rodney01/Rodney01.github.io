@@ -1,0 +1,95 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Processing Demo</title>
+<script type="text/javascript" src="js/processing.js"></script>
+</head>
+<body>
+<script type="text/processing">
+/**
+* @Author:Rodney Serrano
+* @version: 1.0 May 10th, 2019
+*/
+
+//bird stuff
+int Vy=1;
+int a =100;
+int y =90;
+
+//badBirdStuff
+int b = 250;  //badBird x 
+int z = 90;  //badBird y
+int Vb = 1; //badBird velocity x
+
+int gameOver;
+int score = 0;
+int x=0;
+PImage bg;
+PImage bird;
+PImage badBird; 
+
+void setup(){
+  size(800,800);
+  bg= loadImage("./img/platformer.jpg");
+  bird = loadImage("./img/pngbirdo.png");
+ badBird = loadImage("./img/hawk.png");
+}
+  void draw(){
+    if(gameOver==0){
+      
+    image(bg,x,-200);      //background
+    image(bg,x+bg.width,-200);
+   x--;
+    image(bird,a,y);
+    image(badBird,b,z);  //badBird
+  b-=2;
+  if(b<-250){
+   b=800;
+   z=(int)random(400,500);
+  }
+  
+    
+    checkImage();
+     checkCollision();
+ mousePressed();
+Vy++;
+y=y+Vy;
+
+textSize(32);
+text("score:0"+score,10,25);
+
+if(b == -100){
+  score++;}
+
+checkWalls();
+}
+}
+void checkImage(){    //background
+    if(x<-bg.width){
+      x=0;
+    }
+  }
+  void mousePressed(){    //the movement of bird
+    if(mousePressed){
+      Vy=-12;
+    }
+     }
+     void checkCollision(){      //collision
+         if(abs(a-b)<50&&abs(y-z)<50){
+          gameOver=1; 
+     fill(0);
+           text("eaten by a hawk!!!", 325,400);
+     }
+     }
+       void checkWalls(){
+         if(y>800||y<-50){    //too high or too low
+           gameOver=1;
+           fill(0);
+           text("YOU WENT OUT OF BOUNDS", 325,400);
+         }
+         }
+
+</script>
+<canvas id="sketch" style="border: 1px solid black;"></canvas>
+</body>
+</html> 
