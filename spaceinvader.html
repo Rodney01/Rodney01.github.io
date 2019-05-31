@@ -1,0 +1,115 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Processing Demo</title>
+<script type="text/javascript" src="js/processing.js"></script>
+</head>
+<body>
+<script type="text/processing">
+/**
+*
+* @ author: Rodney Serrano\
+* @ version: 1.0, May 21, 2019
+*/
+int gameState=0;
+int a=50; // alien x 
+int aY=100;//alien y
+int x = 550; // starting position for ship
+int score=0; 
+int saucerX= 150; //second alien x starting pos
+int saucerY=50; //second alien Y pos
+
+ 
+ boolean saucer= true; 
+ boolean alien=true;
+
+ float  bX= mouseX; //laser ball x
+float bY=mouseY; //laser bal y
+float rad = 20;
+
+
+PImage ship; //spaceship
+PImage space; // background 
+PImage aliens; //aliens on top starting y 
+PImage crosshair; //crossahi for spaceship
+
+void setup(){
+ size (600,600); 
+  space = loadImage("./img/milkyway.png");//////////images
+  ship= loadImage("./img/protagonist.png"); 
+  aliens= loadImage("./img/aliens.png");
+  
+  crosshair= loadImage("./img/crosshair2.png");
+  alien= true;
+  saucer = true; 
+}
+void draw (){
+  image(space,0,0);//background
+  image(ship,mouseX-50,mouseY); //spaceship       
+  
+
+ 
+  if(alien==true){
+    image(aliens, a,a);
+  }
+  a++;
+ if(alien==false){
+   gameState=1;}
+  
+  if(gameState==1){
+    textSize(60);
+    fill(42, 232,9);
+    text("you win",300,300);
+
+
+
+
+}
+if(a>400){
+  gameState=2;}
+  if (gameState==2){
+    textSize(60);
+    fill(42, 232, 9);
+    text("you lose",300,300);
+
+  }
+
+  
+  textSize(32);
+  fill(42, 232, 9);
+  text("score:"+score,450,50);
+if(alien==false){
+  score++;
+}
+  if(saucer==true){
+    //image( alien2, saucerX, saucerY);
+                  }
+   saucerX++; 
+  //mousePressed();
+  image(crosshair, mouseX-25, mouseY-175);//crosshair 
+  checkWalls();
+}
+//alien movement
+void checkWalls(){
+  if(a>599){
+   a=-1;}
+  if(saucerX>599){
+    saucerX=-1;}
+}
+   void mousePressed(){
+  if(mousePressed){
+    fill(224, 63, 26);
+    ellipse(mouseX+2.3,mouseY-152,rad,rad);   
+  }
+if(abs(mouseX+2.3-a)<a&&abs(mouseY-152-aY)<aY)
+    alien=false;
+
+if(abs(mouseX+2.3-saucerX)<saucerX&&abs(mouseY-152-saucerY)<saucerY)
+saucer=false; 
+
+}
+
+</script>
+<canvas id="sketch" style="border: 1px solid black;"></canvas>
+</body>
+</html>
